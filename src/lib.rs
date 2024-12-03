@@ -27,7 +27,7 @@ pub trait Authentication<Request> {
     const NAME: &'static str;
 
     /// Authenticate the current Request
-    async fn authenticate(&self, req: Request) -> Result<(), ()>;
+    async fn authenticate(&self, req: Request) -> Result<(), Self::Error>;
 
     //  We might need to return something that can be turn to response cause we are not mutating response
     /// Forbid the current request
@@ -37,10 +37,20 @@ pub trait Authentication<Request> {
     async fn challenge(&self, req: Request, state: State);
 
     /// Sign in the current Request
-    async fn sign_in(&self, req: Request, claims: Self::Claim, state: State) -> Result<(), ()>;
+    async fn sign_in(
+        &self,
+        req: Request,
+        claims: Self::Claim,
+        state: State,
+    ) -> Result<(), Self::Error>;
 
     /// Sign out the current Request
-    async fn sign_out(&self, req: Request, claims: Self::Claim, state: State) -> Result<(), ()>;
+    async fn sign_out(
+        &self,
+        req: Request,
+        claims: Self::Claim,
+        state: State,
+    ) -> Result<(), Self::Error>;
 }
 
 #[derive(Clone, Debug, Default)]
