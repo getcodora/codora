@@ -23,7 +23,7 @@ pub trait Authentication<Request> {
     type Claim;
     type Error;
 
-    // This is useful for error handling
+    // This is useful for error handling and logging
     const NAME: &'static str;
 
     /// Authenticate the current Request
