@@ -4563,3 +4563,5 @@ java.util.concurrent.TimeoutException: Future timed out after [5 seconds]
 2024.12.05 13:34:48 INFO  time: indexed workspace in 22s
 Dec 05, 2024 5:59:16 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
 INFO: Unsupported notification method: $/setTrace
+Dec 05, 2024 6:10:24 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
