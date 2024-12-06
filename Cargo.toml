@@ -1,5 +1,5 @@
 [workspace]
-members = [
+members = [ "adapters",
     # auth-rs crates
     "auth-rs",
     "auth-rs/bearer",
@@ -10,9 +10,12 @@ members = [
     # Identity crates
     "identity",
 
-    # db-adapter crates
-
-    # web-framework-adapter crates
+    # adapter crates - these are set of libraries that allow auth-rs to work with external resources or framework's
+    "adapters",
+    "adapters/actix",
+    "adapters/axum",
+    "adapters/mysql",
+    "adapters/postgres",
 ]
 
 # exclude = ""
