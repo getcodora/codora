@@ -3,7 +3,7 @@
 ## Security Contact
 If you believe you've discovered a security issue in this project, please contact us:
 
-- **Contact Email**: [midewestmond@gmail.com]    
+- **[Email Us](mailto://midewestmond@gmail.com, "ws-gith email address")** 
 
 Please **do not report security vulnerabilities through public GitHub issues**.
 
