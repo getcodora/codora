@@ -1,39 +1,34 @@
+#![cfg_attr(debug_assertions, allow(dead_code, unused_imports, unused_variables))]
+#[macro_use]
+extern crate std_plus;
+mod claims;
+
 use async_trait::async_trait;
+pub use claims::*;
 use std::{borrow::Cow, collections::HashMap};
 
 #[async_trait]
-pub trait Authentication<Request> {
-    type Claim;
+pub trait Authentication {
     type Error;
 
     // This is useful for error handling and logging
     const NAME: &'static str;
 
     /// Authenticate the current Request
-    async fn authenticate(&self, req: Request) -> Result<(), Self::Error>;
+    async fn authenticate(&self) -> Result<(), Self::Error>;
 
     //  We might need to return something that can be turn to response cause we are not mutating response
     /// Forbid the current request
-    async fn forbid(&self, req: Request, state: State);
+    async fn forbid(&self, state: State);
 
     /// Challenge the current request
-    async fn challenge(&self, req: Request, state: State);
+    async fn challenge(&self, state: State);
 
     /// Sign in the current Request
-    async fn sign_in(
-        &self,
-        req: Request,
-        claims: Self::Claim,
-        state: State,
-    ) -> Result<(), Self::Error>;
+    async fn sign_in(&self, state: State) -> Result<(), Self::Error>;
 
     /// Sign out the current Request
-    async fn sign_out(
-        &self,
-        req: Request,
-        claims: Self::Claim,
-        state: State,
-    ) -> Result<(), Self::Error>;
+    async fn sign_out(&self, state: State) -> Result<(), Self::Error>;
 }
 
 #[derive(Clone, Debug, Default)]
