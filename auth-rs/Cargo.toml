@@ -4,8 +4,15 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-async-trait.workspace = true
-std-plus.workspace = true
+async-trait = { workspace = true }
+serde = { workspace = true, features = ["derive"], optional = true }
+std-plus = { workspace = true }
+
+[features]
+default = []
+serde = ["dep:serde"]
+# serde = ["dep:serde"]
+
 
 # [dependencies]
 # async-trait = "0.1.83"
