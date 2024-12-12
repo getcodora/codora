@@ -1,19 +1,19 @@
-max_width = 120
 array_width = 100
-short_array_element_width_threshold = 100
-attr_fn_like_width = 60
+attr_fn_like_width = 120
 chain_width = 40
-single_line_if_else_max_width = 40
-single_line_let_else_max_width = 40
-fn_params_layout = "Compressed"
 fn_call_width = 120
-tab_spaces = 4
+fn_params_layout = "Compressed"
+match_arm_leading_pipes = "Always"
+max_width = 120
 merge_derives = true
 remove_nested_parens = true
 reorder_imports = true
 reorder_modules = true
+short_array_element_width_threshold = 100
+single_line_if_else_max_width = 40
+single_line_let_else_max_width = 40
+tab_spaces = 4
 use_field_init_shorthand = true
-match_arm_leading_pipes = "Always"
 # Ignore specific files
 # ignore = [
 
