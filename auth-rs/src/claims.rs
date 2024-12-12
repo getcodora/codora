@@ -23,78 +23,87 @@ use std::{borrow::Cow, collections::HashMap};
 /// let claim = Claim::from("email", string!("auth-rs@example.com"))
 /// ```
 #[derive(new, Clone, PartialEq, Eq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub struct Claim {
-  _type: Cow<'static, str>,
-  value: String,
-  issuer: Option<String>,
-  subject: Option<ClaimInner>,
+    _type: Cow<'static, str>,
+    value: String,
+    issuer: Option<String>,
+    subject: Option<ClaimInner>,
 
-  /// alias - properties
-  pub props: Option<HashMap<String, String>>,
+    /// alias - properties
+    pub props: Option<HashMap<String, String>>,
 }
 
 #[derive(new, Clone, PartialEq, Eq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub struct ClaimInner {
-  label: Cow<'static, str>,
-  claim: Vec<Claim>,
+    label: Cow<'static, str>,
+    claim: Vec<Claim>,
 }
 
 #[derive(new, Clone)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub struct Claims {
-  claims: Vec<ClaimInner>,
+    claims: Vec<ClaimInner>,
 }
 
 impl Claim {
-  /// Sets the `issuer` for the claim.
-  ///
-  /// # Arguments
-  /// * `issuer` - A string slice representing the issuer.
-  ///
-  /// # Example
-  /// ```
-  /// let claim = Claim::new(...).with_issuer("IssuerName");
-  /// ```
-  pub fn with_issuer(self, issuer: &str) -> Self {
-    Self {
-      issuer: Some(issuer.into()),
-      ..self
+    /// Sets the `issuer` for the claim.
+    ///
+    /// # Arguments
+    /// * `issuer` - A string slice representing the issuer.
+    ///
+    /// # Example
+    /// ```
+    /// let claim = Claim::new(...).with_issuer("IssuerName");
+    /// ```
+    pub fn with_issuer(self, issuer: &str) -> Self {
+        Self {
+            issuer: Some(issuer.into()),
+            ..self
+        }
     }
-  }
 
-  /// Sets the `subject` for the claim.
-  ///
-  /// # Arguments
-  /// * `subject` - A `Claims` struct representing the subject.
-  ///
-  /// # Example
-  /// ```
-  /// let claim = Claim::new(...).with_subject(ClaimInner::new(...));
-  /// ```
-  pub fn with_subject(self, subject: ClaimInner) -> Self {
-    Self {
-      subject: Some(subject),
-      ..self
+    /// Sets the `subject` for the claim.
+    ///
+    /// # Arguments
+    /// * `subject` - A `Claims` struct representing the subject.
+    ///
+    /// # Example
+    /// ```
+    /// let claim = Claim::new(...).with_subject(ClaimInner::new(...));
+    /// ```
+    pub fn with_subject(self, subject: ClaimInner) -> Self {
+        Self {
+            subject: Some(subject),
+            ..self
+        }
     }
-  }
 
-  /// Sets additional `properties` for the claim.
-  ///
-  /// # Arguments
-  /// * `props` - A map of key-value string pairs representing custom properties.
-  ///
-  /// # Example
-  /// ```
-  /// let claim = Claim::new(...).with_props(HashMap::new());
-  /// ```
-  pub fn with_props(self, props: HashMap<String, String>) -> Self {
-    Self {
-      props: Some(props),
-      ..self
+    /// Sets additional `properties` for the claim.
+    ///
+    /// # Arguments
+    /// * `props` - A map of key-value string pairs representing custom properties.
+    ///
+    /// # Example
+    /// ```
+    /// let claim = Claim::new(...).with_props(HashMap::new());
+    /// ```
+    pub fn with_props(self, props: HashMap<String, String>) -> Self {
+        Self {
+            props: Some(props),
+            ..self
+        }
     }
-  }
 }
 /// Implements conversion from a tuple into a `Claim`.
 ///
@@ -109,13 +118,13 @@ impl Claim {
 /// let claim = Claim::from("email", String::from("auth-rs@example.com"));
 /// ```
 impl From<(&'static str, String)> for Claim {
-  fn from((_type, value): (&'static str, String)) -> Self {
-    Self {
-      _type: Cow::Borrowed(_type),
-      value,
-      issuer: None,
-      props: None,
-      subject: None,
+    fn from((_type, value): (&'static str, String)) -> Self {
+        Self {
+            _type: Cow::Borrowed(_type),
+            value,
+            issuer: None,
+            props: None,
+            subject: None,
+        }
     }
-  }
 }
