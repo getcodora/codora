@@ -1,36 +1,26 @@
 [workspace]
-members = [ "adapters",
-    # auth-rs crates
-    "auth-rs",
-    "auth-rs/bearer",
-    "auth-rs/cookie",
-    "auth-rs/jwt",
-    "auth-rs/oauth",
-
-    # Identity crates
-    "identity",
-
-    # adapter crates - these are set of libraries that allow auth-rs to work with external resources or framework's
-    "adapters",
-    "adapters/actix",
-    "adapters/axum",
-    "adapters/mysql",
-    "adapters/postgres",
+members = [
+  "adapters", # auth-rs crates
+  "auth-rs",
+  "auth-rs/bearer",
+  "auth-rs/cookie",
+  "auth-rs/jwt",
+  "auth-rs/oauth", # Identity crates
+  "iam", 
+  
+  # adapter crates - these are set of libraries that allow weekend-rs to work with external resources or framework's
+  "adapters",
+  "adapters/actix",
+  "adapters/axum",
+  "adapters/mysql",
+  "adapters/postgres",
 ]
 
-# exclude = ""
-default-members = ["auth-rs"]
+
 resolver = "2"
 
-
-
 [workspace.dependencies]
-std-plus = { git = "https://github.com/theProject-dev/std-plus", rev = "e874079957a18c7b64c00dc14032f4a46fdb08be" }
-async-trait = "0.1.83"
 anyhow = "1.0.87"
+async-trait = "0.1.83"
 serde = "1.0.215"
-
-
-
-
-
+plus = {git = "https://github.com/theProject-dev/std-plus", rev = "e874079957a18c7b64c00dc14032f4a46fdb08be"}
