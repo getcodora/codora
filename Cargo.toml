@@ -1,11 +1,13 @@
 [workspace]
 members = [
-  "adapters", # auth-rs crates
-  "auth-rs",
-  "auth-rs/bearer",
-  "auth-rs/cookie",
-  "auth-rs/jwt",
-  "auth-rs/oauth", # Identity crates
+  #  core crates for weekend-rs authentication and authorization
+  "security",
+  "security/bearer",
+  "security/cookie",
+  "security/jwt",
+  "security/oauth", 
+  
+  # iam crates 
   "iam", 
   
   # adapter crates - these are set of libraries that allow weekend-rs to work with external resources or framework's
@@ -23,4 +25,4 @@ resolver = "2"
 anyhow = "1.0.87"
 async-trait = "0.1.83"
 serde = "1.0.215"
-plus = {git = "https://github.com/theProject-dev/std-plus", rev = "e874079957a18c7b64c00dc14032f4a46fdb08be"}
+plus = { git = "https://github.com/theProjectNG/plus.git", rev = "e23ce82ecef33ba857e29d1e82ddd2fe9069d762" }
