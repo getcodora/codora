@@ -2,10 +2,6 @@
 members = [
   #  core crates for weekend-rs authentication and authorization
   "security",
-  "security/bearer",
-  "security/cookie",
-  "security/jwt",
-  "security/oauth", 
   
   # iam crates 
   "iam", 
