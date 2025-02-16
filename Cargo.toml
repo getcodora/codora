@@ -1,0 +1,25 @@
+[workspace]
+members = [
+  # core crates for weekend-rs authentication and authorization
+  "crates/*",
+]
+resolver = "2"
+
+[workspace.lints.clippy]
+disallowed_methods = 'deny'
+
+[workspace.package]
+version = "0.8.3"
+license = "MIT OR Apache-2.0"
+edition = "2021"
+repository = "https://github.com/theProject-org/weekend"
+# TODO Add other important keyword!
+keywords = ["authentication", "axum", "actix", ""]
+categories = ["database", "asynchronous"]
+authors = ["West Sheriff <west.sh.mail@gmail.com>"]
+
+[workspace.dependencies]
+anyhow = "1.0.87"
+async-trait = "0.1.83"
+serde = "1.0.215"
+plus-rs = { git = "https://github.com/ws-gith/plus.git", rev = "462ad8feabc57a4cfeded89c7544ee8b4eaee858" }
