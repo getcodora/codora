@@ -1,14 +1,7 @@
+use std::collections::HashMap;
+
 use async_trait::async_trait;
-use serde::{Deserialize, Serialize};
-use std::fmt::Debug;
 mod builder;
-
-// use builder::{AuthenticationBuilder, SignInBuilder};
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct State {
-    redirect_url: String,
-}
 
 /*
     TODO
@@ -18,6 +11,7 @@ pub struct State {
 
 // Replace this with actual claimmap
 type ClaimMap = &'static str;
+pub type State = HashMap<String, String>;
 
 #[async_trait]
 pub trait Authentication<State> {

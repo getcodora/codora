@@ -1,9 +1,30 @@
+[package]
+name = "weekend"
+version = "0.1.0"
+edition = "2021"
+
+
+[features]
+
+[dependencies]
+async-trait = { workspace = true }
+serde = { workspace = true }
+tower-layer = "0.3.3"
+anyhow.workspace = true
+tokio = { version = "1.44.0", features = ["full"] }
+
+[dev-dependencies]
+tokio = { version = "1.44.0", features = ["full"] }
+
+
 [workspace]
 members = [
   # core crates for weekend-rs authentication and authorization
+  ".",
   "crates/*",
 ]
 resolver = "2"
+
 
 [workspace.lints.clippy]
 disallowed_methods = 'deny'
@@ -14,8 +35,8 @@ license = "MIT OR Apache-2.0"
 edition = "2021"
 repository = "https://github.com/theProject-org/weekend"
 # TODO Add other important keyword!
-keywords = ["authentication", "axum", "actix", ""]
-categories = ["database", "asynchronous"]
+keywords = ["authentication", "authorization", "weekend", "weekend-rs"]
+categories = ["web-programming", "security", "authentication", "authorization"]
 authors = ["West Sheriff <west.sh.mail@gmail.com>"]
 
 [workspace.dependencies]
