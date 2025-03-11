@@ -1,7 +1,4 @@
-use std::collections::HashMap;
-
 use async_trait::async_trait;
-mod builder;
 
 /*
     TODO
@@ -11,13 +8,12 @@ mod builder;
 
 // Replace this with actual claimmap
 type ClaimMap = &'static str;
-pub type State = HashMap<String, String>;
 
 #[async_trait]
-pub trait Authentication<State> {
+pub trait Handler<State> {
     type Error;
 
-    /// The name of the authentication handler
+    /// The name of the handler
     /// This is used to identify the handler in logs and other contexts
     const NAME: &'static str;
 
