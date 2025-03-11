@@ -1,3 +1,4 @@
+#![forbid(unsafe_code)]
 // Silence the noise in development!
 #![cfg_attr(debug_assertions, allow(dead_code, unused_variables))]
 // Docs and linting rules
@@ -14,3 +15,11 @@
 
 mod authentication;
 mod authorization;
+mod state;
+
+// TODO -> Inline docs
+pub mod security {
+    //!
+    //! This is the security module for weekend
+    pub use crate::state::State;
+}
