@@ -13,15 +13,19 @@
 //! Write some docs about the weekend here!
 #![doc = include_str!("../docs/weekend.md")]
 
-mod authentication;
-mod authorization;
+mod context;
+mod provider;
 mod state;
 
 // TODO -> Inline docs
 pub mod security {
     //!
     //! This is the security module for weekend
-    pub use crate::state::State;
+    pub use crate::{context::{
+        handler::Handler,
+        sign_in::{SignInContext, SignInHandler},
+        sign_out::{SignOutContext, SignOutHandler},
+    }, provider::Provider, state::State};
     pub mod state {
         pub use crate::state::Entry;
     }
