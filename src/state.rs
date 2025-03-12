@@ -1,54 +1,27 @@
-use std::{borrow::Cow, collections::HashMap};
+use std::{
+    borrow::Cow,
+    collections::HashMap,
+    ops::{Index, IndexMut},
+};
 
 // TODO Implement other API and Study the Code well to fish out bugs or any issues!
+// Implement IterMut and remove function iter_all, entry and other iterator trait for state
 #[derive(Clone)]
-pub enum InnerEntry {
+pub enum Entry {
     Single(Cow<'static, str>),
     Multiple(Vec<Cow<'static, str>>),
 }
 
-impl FromIterator<Cow<'static, str>> for InnerEntry {
-    fn from_iter<T: IntoIterator<Item = Cow<'static, str>>>(iter: T) -> Self {
-        let vec: Vec<_> = iter.into_iter().collect();
-        match vec.len() {
-            | 0 => InnerEntry::Single(Cow::Borrowed("")),
-            | 1 => InnerEntry::Single(vec.into_iter().next().unwrap()),
-            | _ => InnerEntry::Multiple(vec),
-        }
-    }
-}
-
-impl PartialEq for InnerEntry {
-    fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            | (InnerEntry::Single(a), InnerEntry::Single(b)) => a == b,
-            | (InnerEntry::Multiple(a), InnerEntry::Multiple(b)) => a == b,
-            | (InnerEntry::Single(a), InnerEntry::Multiple(b)) => b.len() == 1 && b[0] == *a,
-            | (InnerEntry::Multiple(a), InnerEntry::Single(b)) => a.len() == 1 && a[0] == *b,
-        }
-    }
-}
-
-impl std::ops::Index<usize> for InnerEntry {
-    type Output = Cow<'static, str>;
-
-    fn index(&self, index: usize) -> &Self::Output {
-        match self {
-            | InnerEntry::Single(v) if index == 0 => v,
-            | InnerEntry::Single(_) => panic!("Index out of bounds"),
-            | InnerEntry::Multiple(v) => &v[index],
-        }
-    }
-}
-
-impl InnerEntry {
+impl Entry {
     fn iter(&self) -> Iter<'_> {
         match self {
-            | InnerEntry::Single(v) => Iter::Single(Some(v)),
-            | InnerEntry::Multiple(v) => Iter::Multiple(v.iter()),
+            Entry::Single(v) => Iter::Single(Some(v)),
+            Entry::Multiple(v) => Iter::Multiple(v.iter()),
         }
     }
 }
+
+// impl PartialEq
 
 pub enum Iter<'a> {
     Single(Option<&'a Cow<'static, str>>),
@@ -60,44 +33,34 @@ impl<'a> Iterator for Iter<'a> {
 
     fn next(&mut self) -> Option<Self::Item> {
         match self {
-            | Iter::Single(v) => v.take(),
-            | Iter::Multiple(iter) => iter.next(),
+            Iter::Single(v) => v.take(),
+            Iter::Multiple(iter) => iter.next(),
         }
     }
 }
 
-impl<'a> ExactSizeIterator for Iter<'a> {
-    fn len(&self) -> usize {
-        match self {
-            | Iter::Single(Some(_)) => 1,
-            | Iter::Single(None) => 0,
-            | Iter::Multiple(iter) => iter.len(),
-        }
-    }
-}
-
-impl Extend<Cow<'static, str>> for InnerEntry {
+impl Extend<Cow<'static, str>> for Entry {
     fn extend<T: IntoIterator<Item = Cow<'static, str>>>(&mut self, iter: T) {
         match self {
-            | InnerEntry::Single(v) => {
+            Entry::Single(v) => {
                 let mut vec = Vec::new();
                 vec.push(v.clone());
                 vec.extend(iter);
-                *self = InnerEntry::Multiple(vec);
+                *self = Entry::Multiple(vec);
             }
-            | InnerEntry::Multiple(v) => v.extend(iter),
+            Entry::Multiple(v) => v.extend(iter),
         }
     }
 }
 
-impl IntoIterator for InnerEntry {
+impl IntoIterator for Entry {
     type Item = Cow<'static, str>;
     type IntoIter = IntoIterInner;
 
     fn into_iter(self) -> Self::IntoIter {
         match self {
-            | InnerEntry::Single(v) => IntoIterInner::Single(Some(v)),
-            | InnerEntry::Multiple(v) => IntoIterInner::Multiple(v.into_iter()),
+            Entry::Single(v) => IntoIterInner::Single(Some(v)),
+            Entry::Multiple(v) => IntoIterInner::Multiple(v.into_iter()),
         }
     }
 }
@@ -112,26 +75,26 @@ impl Iterator for IntoIterInner {
 
     fn next(&mut self) -> Option<Self::Item> {
         match self {
-            | IntoIterInner::Single(v) => v.take(),
-            | IntoIterInner::Multiple(iter) => iter.next(),
+            IntoIterInner::Single(v) => v.take(),
+            IntoIterInner::Multiple(iter) => iter.next(),
         }
     }
 }
 
-impl From<&'static str> for InnerEntry {
+impl From<&'static str> for Entry {
     fn from(value: &'static str) -> Self {
-        InnerEntry::Single(Cow::Borrowed(value))
+        Entry::Single(Cow::Borrowed(value))
     }
 }
 
-impl From<String> for InnerEntry {
+impl From<String> for Entry {
     fn from(value: String) -> Self {
-        InnerEntry::Single(Cow::Owned(value))
+        Entry::Single(Cow::Owned(value))
     }
 }
 
 // Implement for Vec<T> where T can convert into Cow<'static, str>
-impl<T> From<Vec<T>> for InnerEntry
+impl<T> From<Vec<T>> for Entry
 where
     T: Into<Cow<'static, str>>,
 {
@@ -141,14 +104,14 @@ where
             .map(Into::into)
             .collect();
 
-        InnerEntry::Multiple(values)
+        Entry::Multiple(values)
     }
 }
-impl std::fmt::Debug for InnerEntry {
+impl std::fmt::Debug for Entry {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            | InnerEntry::Single(v) => write!(f, "[{:?}]", v),
-            | InnerEntry::Multiple(v) => f.debug_list().entries(v).finish(),
+            Entry::Single(v) => write!(f, "[{:?}]", v),
+            Entry::Multiple(v) => f.debug_list().entries(v).finish(),
         }
     }
 }
@@ -159,7 +122,7 @@ impl std::fmt::Debug for InnerEntry {
 /// * State contain's None to avoid carrying empty Map all around
 #[derive(Default, Debug)]
 pub struct State {
-    properties: Option<HashMap<&'static str, InnerEntry>>,
+    properties: Option<HashMap<&'static str, Entry>>,
 }
 
 impl State {
@@ -181,18 +144,72 @@ impl State {
     /// ```
     pub fn add<V>(&mut self, key: &'static str, value: V)
     where
-        V: Into<InnerEntry>,
+        V: Into<Entry>,
     {
         let map = self
             .properties
             .get_or_insert_with(HashMap::new);
 
         match map.get_mut(key) {
-            | Some(entry) => entry.extend(value.into()),
-            | None => {
+            Some(entry) => entry.extend(value.into()),
+            None => {
                 map.insert(key, value.into());
             }
         }
+    }
+
+    /// Returns a mutable reference to the value corresponding to the key.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use weekend::security::State;
+    /// use weekend::security::state::Entry;
+    ///
+    /// let mut state = State::new();
+    /// state.add("role", "user");
+    ///
+    /// if let Some(entry) = state.get_mut("role") {
+    ///     match entry {
+    ///         Entry::Single(v) => {
+    ///             *v = "admin".into();
+    ///             assert_eq!(v, "admin");
+    ///             assert_ne!(v, "user");
+    ///         },
+    ///         _ => {}
+    ///     }
+    /// }
+    /// ```
+    pub fn get_mut(&mut self, key: &'static str) -> Option<&mut Entry> {
+        self.properties
+            .as_mut()
+            .and_then(|props| props.get_mut(key))
+    }
+
+    /// Returns a reference to the value corresponding to the key.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use weekend::security::State;
+    /// use weekend::security::state::Entry;
+    ///
+    /// let mut state = State::new();
+    /// state.add("role", "user");
+    ///
+    /// if let Some(entry) = state.get_mut("role") {
+    ///     match entry {
+    ///         Entry::Single(v) => {
+    ///             assert_eq!(v, "user");
+    ///         },
+    ///         _ => {}
+    ///     }
+    /// }
+    /// ```
+    pub fn get(&self, key: &'static str) -> Option<&Entry> {
+        self.properties
+            .as_ref()
+            .and_then(|props| props.get(key))
     }
 
     /// Returns true if the map contains a value for the specified key.
@@ -270,12 +287,69 @@ impl State {
     }
 }
 
+/// Implements the [`Index`] trait to allow indexing into a [`State`] using string literals.
+///
+/// # Examples
+///
+/// ```
+/// use weekend::security::State;
+/// use weekend::security::state::Entry;
+///
+/// let mut state = State::new();
+/// state.add("key", "value");
+///
+/// // Access value using index notation
+/// // assert_eq!(&state["key"], &Entry::Single("new_value".into()));
+/// ```
+///
+/// # Panics
+///
+/// Panics if the key does not exist in the state.
+/// Consider using [`State::get`] if you want to handle missing keys gracefully.
+impl Index<&'static str> for State {
+    type Output = Entry;
+
+    fn index(&self, index: &'static str) -> &Self::Output {
+        self.get(index).unwrap()
+    }
+}
+
+/// Implements the [`IndexMut`] trait to allow mutable indexing into a [`State`] using string literals.
+///
+/// # Examples
+///
+/// ```
+/// use weekend::security::State;
+/// use weekend::security::state::Entry;
+///
+/// let mut state = State::new();
+/// state.add("key", "value");
+///
+/// // Modify value using mutable index notation
+/// state["key"] = Entry::Single("new_value".into());
+/// // assert_eq!(&state["key"], &Entry::Single("new_value".into()))
+/// ```
+///
+/// # Panics
+///
+/// Panics if the key does not exist in the state.
+/// Consider using [`State::get_mut`] if you want to handle missing keys gracefully.
+impl IndexMut<&'static str> for State {
+    #[inline]
+    fn index_mut(&mut self, index: &'static str) -> &mut Self::Output {
+        // Using unwrap is intentional here as index operations are meant to panic on missing keys
+        self.get_mut(index)
+            .expect("no entry found for key")
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::State;
 
     #[test]
     fn test() {
+        let value = String::new();
         let mut state = State::new();
 
         state.add("add", "+");
@@ -284,6 +358,9 @@ mod test {
         state.add("add", "plus".to_string());
         state.add("add", vec!["hey".to_string()]);
 
+        let test_index = &mut state["add"];
+
+        println!("{:?}", test_index);
         println!("{:?}", state);
     }
 }

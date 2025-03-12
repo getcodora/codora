@@ -22,4 +22,7 @@ pub mod security {
     //!
     //! This is the security module for weekend
     pub use crate::state::State;
+    pub mod state {
+        pub use crate::state::Entry;
+    }
 }
