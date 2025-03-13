@@ -1,41 +1,35 @@
-use std::any::TypeId;
+use std::{borrow::Cow, collections::HashMap};
+use thestack::{new, string};
+use thestack_axum::make_error;
+use validator::Validate;
 
-use anyhow::Result;
-use axum::{
-  extract::{Path, Request},
-  middleware::{from_fn, Next},
-  response::Response,
-  routing::get,
-  Extension, Router,
-};
-use axum_extra::routing::Resource;
-use plus::std_rs::{f, new, string};
-use tokio::net::TcpListener;
+#[derive(Debug, Validate, new)]
+struct User {
+    #[validate(length(min = 10, message = "name is too short!"))]
+    name: String,
 
-#[derive(Clone, Debug, new)]
-struct State {
-  user: String,
+    #[validate(nested)]
+    old_user: OldUser,
 }
 
-async fn debug_extenstion(request: Request, next: Next) -> Response {
-  println!("Extension: {:?}", TypeId::of::<Extension<State>>());
-  next.run(request).await
+#[derive(Debug, Validate, new)]
+struct OldUser {
+    #[validate(length(min = 10, message = "name is too short!"))]
+    name: String,
+
+    #[validate(range(min = 10, message = "You are too young!"))]
+    age: i32,
 }
 
-#[tokio::main]
-async fn main() -> Result<()> {
-  let listerner = TcpListener::bind("0.0.0.0:3000").await?;
+fn main() {
+    let user = User::new(string!("West"), OldUser::new(string!("East"), 2));
 
-  let resources = Resource::named("users")
-    .index(|state: Extension<State>| async move { format!("Hello, {}!", state.user) })
-    .new(|path: Path<String>| async move { f!("Hello, {}", path.0) });
+    type Store = HashMap<Cow<'static, str>, Vec<(Cow<'static, str>, Cow<'static, str>)>>;
+    let mut store: Store = HashMap::new();
 
-  let app = Router::new()
-    .merge(resources)
-    .route("/", get(|state: Extension<State>| async move { format!("Hello, {}!", state.user) }))
-    .layer(Extension(State::new(string!("West"))))
-    .layer(from_fn(debug_extenstion));
+    let _ = user
+        .validate()
+        .map_err(|err| make_error(None, &err, &mut store));
 
-  axum::serve(listerner, app).await?;
-  Ok(())
+    println!("{:?}", store);
 }
