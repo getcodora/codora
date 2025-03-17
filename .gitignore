@@ -71,9 +71,6 @@ Thumbs.db
 *.wast
 
 # docusaurus
-docs/build
 docs/.docusaurus
-build
-**/build
 .docusaurus
 **/.docusaurus
