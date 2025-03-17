@@ -1,0 +1,15 @@
+{
+  "name": "thestack",
+  "module": "index.ts",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "docs"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
