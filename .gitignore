@@ -69,3 +69,11 @@ Thumbs.db
 *.wasm
 *.wat
 *.wast
+
+# docusaurus
+docs/build
+docs/.docusaurus
+build
+**/build
+.docusaurus
+**/.docusaurus
