@@ -1,47 +1,48 @@
+######## PACKAGE - SETUP ########
 [package]
 name = "codora"
-version = "0.1.0"
-edition = "2021"
-
+version = { workspace = true }
+edition = { workspace = true }
 
 [lib]
-path = "crates/codora/lib.rs"
+path = "crates/codora/src/lib.rs"
 
 [[bin]]
 name = "codora"
-path = "crates/codora/main.rs"
-
+path = "crates/codora/src/main.rs"
 
 [features]
-default = ["new"]
-web = ["new", "validator"]
-new = []
-axum = []
-validator = []
+default = []
+validator = ["dep:codora-validator"]
+security = ["dep:codora-security"]
+util = ["dep:codora-util"]
+axum = ["dep:codora-axum"]
+
 
 [dependencies]
-serde = { workspace = true }
-tower-layer = "0.3.3"
-anyhow = { workspace = true }
-derive-new = "0.7.0"
-
-[dev-dependencies]
-tokio = { workspace = true, features = ["full"] }
+codora-axum = { workspace = true, optional = true }
+codora-util = { workspace = true, optional = true }
+codora-security = { workspace = true, optional = true }
+codora-validator = { workspace = true, optional = true }
 
 
+######## WORKSPACE - SETUP ########
 [workspace]
-members = [".", "crates/codora-axum", "crates/codora-validator", "dev"]
+members = [
+    ".",
+    "crates/codora-security",
+    "crates/codora-util",
+    "crates/codora-axum",
+    "crates/codora-validator",
+]
 resolver = "2"
 
 
-[workspace.lints.clippy]
-
 [workspace.package]
-version = "0.8.3"
+version = "0.1.0"
+edition = "2024"
 license = "MIT"
-edition = "2021"
 repository = "https://github.com/getcodora/codora"
-# TODO Add other important keyword!
 keywords = [
     "web",
     "server",
@@ -58,11 +59,21 @@ categories = ["web-programming", "web-framework", "orm"]
 authors = ["West Sheriff <west.sh.mail@gmail.com>"]
 
 [workspace.dependencies]
+# Workspace Crates
+codora = { path = "." }
+codora-security = { path = "./crates/codora-security" }
+codora-validator = { path = "./crates/codora-validator" }
+codora-util = { path = "./crates/codora-util" }
+codora-axum = { path = "./crates/codora-axum" }
+
+
+# External Crates
 anyhow = "1.0.87"
 serde = "1.0.215"
 tokio = { version = "1.44.0" }
 axum = "0.8.1"
 
+[workspace.lints.clippy]
 
 # TODO
 # Setup Compiler Profile

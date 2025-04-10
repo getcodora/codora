@@ -13,7 +13,3 @@ single_line_if_else_max_width = 40
 single_line_let_else_max_width = 40
 tab_spaces = 4
 use_field_init_shorthand = true
-# Ignore specific files
-# ignore = [
-
-# ]

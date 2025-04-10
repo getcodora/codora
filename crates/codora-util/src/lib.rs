@@ -8,32 +8,6 @@
 // - Lint for missing docs
 #![cfg_attr(not(debug_assertions), deny(missing_docs))]
 //!
-//! # codora
-//!
-//! Write some docs about the codora here!
-// #![doc = include_str!("../docs/codora.md")]
-
-mod context;
-mod provider;
-mod state;
-
-// TODO -> Inline docs
-pub mod security {
-    //!
-    //! This is the security module for codora
-    pub use crate::{
-        context::{
-            handler::Handler,
-            sign_in::{SignInContext, SignInHandler},
-            sign_out::{SignOutContext, SignOutHandler},
-        },
-        provider::Provider,
-        state::State,
-    };
-    pub mod state {
-        pub use crate::state::Entry;
-    }
-}
 
 #[doc(inline)]
 /// Re-exports the [`new`](https://docs.rs/derive-new/latest/derive_new/derive/fn.new.html) macro from the `derive-new` crate.
@@ -67,7 +41,6 @@ pub mod security {
 /// # Attribution
 /// Original crate authored by Nika Layzell and maintained by the Rust community.
 /// For more information, visit the [derive-new repository](https://github.com/nrc/derive-new).
-#[cfg(feature = "new")]
 pub use derive_new::new;
 
 /// Retrieves an environment variable's value.

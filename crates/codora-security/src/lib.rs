@@ -7,10 +7,9 @@
 #![cfg_attr(not(test), deny(clippy::print_stdout, clippy::dbg_macro))]
 // - Lint for missing docs
 #![cfg_attr(not(debug_assertions), deny(missing_docs))]
-//!
-//! # codora-extractor
-//!
-//! Write some docs about the codora-validator here!
-// TODO
-// Copy validator-crate and serde-valid to create a wrapper that produce meaningful error's
-// This validator should be able to produce something that works like dotnet validator
+
+// TODO fix this later to export nicely!
+// Solve circular dependency by using external crate
+pub mod context;
+pub mod provider;
+pub mod state;
