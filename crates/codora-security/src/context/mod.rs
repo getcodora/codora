@@ -84,8 +84,8 @@ pub mod sign_in {
 
     pub struct SignInContext<State, Handler: SignOutHandler<State>> {
         handler: Handler,
-        before_signout: Box<dyn Fn(&State, &Handler::Claim)>,
-        after_signout: Box<dyn Fn(&State, &Handler::Claim)>,
+        before_signin: Box<dyn Fn(&State, &Handler::Claim)>,
+        after_signin: Box<dyn Fn(&State, &Handler::Claim)>,
     }
 }
 
