@@ -1,40 +1,5 @@
-######## PACKAGE - SETUP ########
-[package]
-name = "codora"
-version = { workspace = true }
-edition = { workspace = true }
-
-[lib]
-path = "crates/codora/src/lib.rs"
-
-[[bin]]
-name = "codora"
-path = "crates/codora/src/main.rs"
-
-[features]
-default = []
-validator = ["dep:codora-validator"]
-security = ["dep:codora-security"]
-util = ["dep:codora-util"]
-axum = ["dep:codora-axum"]
-
-
-[dependencies]
-codora-axum = { workspace = true, optional = true }
-codora-util = { workspace = true, optional = true }
-codora-security = { workspace = true, optional = true }
-codora-validator = { workspace = true, optional = true }
-
-
-######## WORKSPACE - SETUP ########
 [workspace]
-members = [
-    ".",
-    "crates/codora-security",
-    "crates/codora-util",
-    "crates/codora-axum",
-    "crates/codora-validator",
-]
+members = ["crates/*"]
 resolver = "2"
 
 
@@ -60,7 +25,7 @@ authors = ["West Sheriff <west.sh.mail@gmail.com>"]
 
 [workspace.dependencies]
 # Workspace Crates
-codora = { path = "." }
+codora = { path = "./crates/codora" }
 codora-security = { path = "./crates/codora-security" }
 codora-validator = { path = "./crates/codora-validator" }
 codora-util = { path = "./crates/codora-util" }

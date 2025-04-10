@@ -14,6 +14,7 @@
 // #![doc = include_str!("../docs/codora.md")]
 
 #[cfg(feature = "util")]
+#[macro_use]
 extern crate codora_util;
 
 // TODO -> Inline docs
