@@ -1,0 +1,19 @@
+[package]
+name = "codora"
+version = { workspace = true }
+edition = { workspace = true }
+
+
+[features]
+default = ["util"]
+validator = ["dep:codora-validator"]
+security = ["dep:codora-security"]
+util = ["dep:codora-util"]
+axum = ["dep:codora-axum"]
+
+
+[dependencies]
+codora-axum = { workspace = true, optional = true }
+codora-util = { workspace = true, optional = true }
+codora-security = { workspace = true, optional = true }
+codora-validator = { workspace = true, optional = true }

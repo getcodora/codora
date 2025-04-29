@@ -1,0 +1,19 @@
+[package]
+name = "codora-axum"
+edition = { workspace = true }
+version = { workspace = true }
+
+
+[lints]
+workspace = true
+
+[dependencies]
+axum = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+axum-extra = { version = "0.10.0", features = ["typed-routing"] }
+validator = { version = "0.20.0", features = ["derive"] }
+serde = { workspace = true, features = ["derive"] }
+codora-util = { workspace = true }
+
+[dev-dependencies]
+anyhow = { workspace = true }
