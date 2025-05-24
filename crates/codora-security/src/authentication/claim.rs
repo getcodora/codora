@@ -1,11 +1,35 @@
-use std::{
-    borrow::Cow,
-    collections::HashMap,
-    ops::{Index, IndexMut},
-};
+use std::{borrow::Cow, collections::HashMap};
 
 // TODO Implement other API and Study the Code well to fish out bugs or any issues!
 // Implement IterMut and remove function iter_all, entry and other iterator trait for state
+
+// A claim is a claim that can compose claim
+/*
+
+    |
+    |--|
+
+*/
+#[derive(Default)]
+pub struct Claim {
+    value: Entry,
+    visibility: Visibility,
+    label: Cow<'static, str>,
+}
+
+#[derive(Default)]
+pub enum Visibility {
+    Private,
+
+    #[default]
+    Public,
+}
+
+#[derive(Default)]
+pub enum Entry {
+    #[default]
+    Single,
+}
 
 /// # State
 /// Used for holding authentication state during request lifecycle

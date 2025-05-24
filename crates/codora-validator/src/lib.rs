@@ -20,15 +20,8 @@
 
 mod internal;
 
-pub use internal::{Error, IsEmpty, Validate};
+pub use internal::{IntoError, Validate, ValidationError};
 
 // TODO - re-export the macro so we can use it like this
 #[cfg(feature = "derive")]
 pub use validator_derive::Validate;
-
-#[cfg(test)]
-mod tests {
-
-    #[test]
-    fn test_derive() {}
-}

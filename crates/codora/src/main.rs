@@ -4,7 +4,34 @@
 fn main() {
     println!("codora cli")
 }
+// #[derive(Authentication)]
+// #[signin_with()]
+// #[signout_with()]
+// pub struct AuthProvider;
 
+// Impl the Provider Trait 
+
+// pub struct Authentication 
+// This will hold the provider 
+// Hold the State
+// Hold everything we need to authenticate peroperly 
+// auth.signin(pass in a context that could have a handler to this would allow us to switch handler at run time)
+//  We don't need to manage context you know we would have TemporaryResponse with body this would allow us to fake Response then we can set how we want to match it at runtime 
+
+/*
+    use extension method to generate response tailored to each framework 
+
+    handler can be a struct no need to hold hot one created when needed 
+    handler can
+
+    Rule of thumb if you think user might need to decide how a service would be created creata a factory for it 
+    Recieves Request, caim yada yada whatever is available at the point of use 
+
+    let sign_in = auth.sign_in(Claim).await?;
+
+    auth.into_response(sign_in)
+    auth.into_response_with_body(sign_in, Body)
+*/
 // # codora
 
 // This would allow us to write frontend in JSX and take advantage of all the React ecosystem while having the flexibility to continue in typescript for the backend or Rusr

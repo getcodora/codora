@@ -152,12 +152,14 @@ macro_rules! f {
 #[macro_export]
 macro_rules! impl_error__and_display {
     ($ident:ident) => {
-        impl std::error::Error for $ident {}
-        impl std::fmt::Display for $ident {
-            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                write!(f, "Error: {:?}", self)
+        const _: () = {
+            impl std::error::Error for $ident {}
+            impl std::fmt::Display for $ident {
+                fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                    write!(f, "Error: {:?}", self)
+                }
             }
-        }
+        };
     };
 }
 

@@ -15,18 +15,9 @@ compile_error!("You must enable at least one feature to use codora");
 #[cfg(feature = "util")]
 pub use codora_util::*;
 
-// TODO -> Inline docs
+// TODO -> Inline docs, setup getcodora, learn about action, update readme, changelog, otherstuff
 #[cfg(feature = "security")]
 pub mod security {
     //!
     //! This is the security module for codora
-    pub use codora_security::{
-        context::{
-            handler::Handler,
-            sign_in::{SignInContext, SignInHandler},
-            sign_out::{SignOutContext, SignOutHandler},
-        },
-        provider::Provider,
-        state::State,
-    };
 }

@@ -8,7 +8,15 @@ keywords.workspace = true
 categories.workspace = true
 authors.workspace = true
 
+[features]
+default = ["axum"]
+axum = ["dep:axum"]
+poem = []
+actix = []
+identity = []
+
 [dependencies]
+axum = { workspace = true, optional = true }
 
 [lints]
 workspace = true

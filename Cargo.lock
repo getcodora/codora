@@ -45,6 +45,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "de45108900e1f9b9242f7f2e254aa3e2c029c921c258fe9e6b4217eeebd54288"
 dependencies = [
  "axum-core",
+ "axum-macros",
  "bytes",
  "form_urlencoded",
  "futures-util",
@@ -166,10 +167,13 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 name = "codora"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
+ "axum",
  "codora-axum",
  "codora-security",
  "codora-util",
  "codora-validator",
+ "tokio",
 ]
 
 [[package]]
@@ -192,6 +196,9 @@ version = "0.1.0"
 [[package]]
 name = "codora-security"
 version = "0.1.0"
+dependencies = [
+ "axum",
+]
 
 [[package]]
 name = "codora-util"
@@ -206,6 +213,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "codora-util",
+ "derive_more",
  "serde",
  "serde_json",
  "validator-derive",
@@ -251,6 +259,26 @@ name = "derive-new"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2cdc8d50f426189eef89dac62fabfa0abb27d5cc008f25bf4156a0203325becc"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "derive_more"
+version = "2.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "093242cf7570c207c83073cf82f79706fe7b8317e98620a47d5be7c3d8497678"
+dependencies = [
+ "derive_more-impl",
+]
+
+[[package]]
+name = "derive_more-impl"
+version = "2.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bda628edc44c4bb645fbe0f758797143e4e07926f7ebf4e9bdfbd3d2ce621df3"
 dependencies = [
  "proc-macro2",
  "quote",
