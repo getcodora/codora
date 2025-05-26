@@ -9,9 +9,5 @@
 #![cfg_attr(not(debug_assertions), deny(missing_docs))]
 
 // TODO fix this later to export nicely!
-pub mod adapter;
 pub mod authentication;
 pub mod authorization;
-
-#[cfg(feature = "identity")]
-pub mod identity;

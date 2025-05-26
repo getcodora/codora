@@ -1,11 +1,13 @@
-mod bearer;
-mod cookie;
-mod jwt;
-mod oauth;
+pub(crate) mod bearer;
+pub(crate) mod cookie;
+pub(crate) mod jwt;
+pub(crate) mod oauth;
 
 use std::future::Future;
 
-pub trait Handler {
+use super::{Context, claim::Claim};
+
+pub trait Handler<Request> {
     type Error;
 
     /// The name of the handler
@@ -15,7 +17,7 @@ pub trait Handler {
     /// Authenticate the current request
     ///
     /// This method is called to authenticate the current request
-    fn authenticate(&self) -> impl Future<Output = Result<(), Self::Error>> + Send;
+    fn authenticate(&self, contex: &Context<Request>, claim: &Claim) -> impl Future<Output = Result<(), Self::Error>> + Send;
 
     /// Forbid the current request
     ///
@@ -23,7 +25,7 @@ pub trait Handler {
     ///
     /// # Arguments
     /// `state` - The current state of the request `S`
-    fn forbid(&self) -> impl Future<Output = Result<(), Self::Error>> + Send;
+    fn forbid(&self, contex: &Context<Request>, claim: &Claim) -> impl Future<Output = Result<(), Self::Error>> + Send;
 
     /// Challenge the current request
     ///
@@ -31,5 +33,23 @@ pub trait Handler {
     ///
     /// # Arguments
     /// `state` - The current state of the request `Self::State`
-    fn challenge(&self) -> impl Future<Output = Result<(), Self::Error>> + Send;
+    fn challenge(&self, contex: &Context<Request>, claim: &Claim) -> impl Future<Output = Result<(), Self::Error>> + Send;
+}
+
+pub mod service {
+    use crate::authentication::{Context, claim::Claim};
+
+    pub struct Handler<H> {
+        handler: H,
+    }
+
+    impl<H> Handler<H> {
+        async fn sign_out<Request>(&self, req: &Context<Request>, claim: &Claim) -> Result<(), H::Error>
+        where
+            H: super::Handler<Request>,
+        {
+            // Delegate the Request to the handler
+            todo!()
+        }
+    }
 }

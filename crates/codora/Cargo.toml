@@ -9,16 +9,15 @@ default = ["util", "security"]
 validator = ["dep:codora-validator"]
 security = ["dep:codora-security"]
 util = ["dep:codora-util"]
-axum = ["dep:codora-axum"]
+axum = ["dep:codora-adapter-axum"]
 
 
 [dependencies]
-codora-axum = { workspace = true, optional = true }
 codora-util = { workspace = true, optional = true }
-codora-security = { workspace = true, optional = true, features = ["axum"] }
+codora-security = { workspace = true, optional = true }
 codora-validator = { workspace = true, optional = true }
+codora-adapter-axum = { workspace = true, optional = true }
 
 [dev-dependencies]
-axum = { workspace = true, features = ["macros"] }
 anyhow = { workspace = true }
 tokio = { workspace = true, features = ["full"] }

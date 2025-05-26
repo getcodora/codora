@@ -1,11 +1,15 @@
 [workspace]
 members = [
     "crates/codora",
-    "crates/codora-util",
-    "crates/codora-axum",
     "crates/codora-bot",
+    "crates/codora-util",
     "crates/codora-security",
     "crates/codora-validator",
+
+    # Adapter
+    "crates/adapter/*",
+    # Internal crate mean't for internal used 
+    "crates/___private/*",
 ]
 resolver = "2"
 
@@ -25,7 +29,8 @@ codora = { path = "./crates/codora" }
 codora-security = { path = "./crates/codora-security" }
 codora-validator = { path = "./crates/codora-validator" }
 codora-util = { path = "./crates/codora-util" }
-codora-axum = { path = "./crates/codora-axum" }
+# Adapter Crates
+codora-adapter-axum = { path = "./crates/adapter/axum" }
 
 
 # External Crates
@@ -33,7 +38,6 @@ anyhow = "1.0.87"
 serde = "1.0.215"
 serde_json = "1.0.140"
 tokio = { version = "1.44.0" }
-axum = "0.8.1"
 
 [workspace.lints.clippy]
 

@@ -1,140 +1,119 @@
 use claim::Claim;
-use handler::Handler;
-use sign_in::SignInHandler;
-use sign_out::SignOutHandler;
+use codora_util::new;
 use std::sync::{Arc, RwLock};
 
 pub mod claim;
 pub mod handler;
 
-#[derive(Clone)]
-pub struct Context<P> {
+/*
+pub struct AuthenticationLayer
+*/
+
+#[derive(Clone, Default)]
+pub struct Authentication {
+    // This is used to monitor all the handler in case of authenticating! and populating the claim on each request
+    handler: Option<Arc<Vec<()>>>,
+    // This will store non handler state of any T
+    state: String,
+    // Other stuff here
+}
+
+impl Authentication {
+    // Get handler
+    pub async fn get_handler<'a, T: 'a>(&'a self) -> Option<&'a T> {
+        // self.handler.as_ref().map(|handler| handler.get)
+        todo!()
+    }
+
+    // Get State as well
+    pub async fn get_state<'a, T: 'a>(&'a self) -> Option<&'a T> {
+        // self.handler.as_ref().map(|handler| handler.get)
+        todo!()
+    }
+}
+
+pub struct AuthenticationBuilder {
+    handler: Option<Vec<()>>,
+}
+
+// Hot context created on every Request so each Request has it's own context
+#[derive(Clone, new)]
+pub struct Context<Request> {
+    // Replace this with state! we want something that could store any T like extension used in http::Extension!
+    /*
+    All the state added in this layer are transient which means it's shared among request
+    tapped into request run authenticate which populate the context claim!
+    let auth = AuthenticationBuilder::new(/Some State/)
+        .add_cookie()
+        .add_jwt()
+        .add_state(|state| state.add(String::new()))
+     */
+    // THis state should be shared among Context you see
+    state: Arc<Authentication>,
     claim: Arc<RwLock<Claim>>,
-    provider: P,
+    req: Request,
 }
 
-impl<P> Context<P> {
-    pub fn new(claim: Arc<RwLock<Claim>>, provider: P) -> Self {
-        Self { claim, provider }
-    }
-}
-
-impl<P> Context<P>
-where
-    P: Authentication<String>,
-{
-    pub async fn sign_in(&self, claim: &Claim) -> Result<(), ()> {
-        // let sign_in = self.provider.;
-
-        todo!()
-    }
-
-    pub async fn sign_out(&self, claim: &Claim) -> Result<(), ()> {
-        todo!()
-    }
-    pub async fn forbid(&self, claim: &Claim) -> Result<(), ()> {
-        todo!()
-    }
-    pub async fn challenge(&self, claim: &Claim) -> Result<(), ()> {
-        todo!()
-    }
-    pub async fn authenticate(&self, claim: &Claim) -> Result<(), ()> {
-        todo!()
-    }
-}
-
-pub trait FromRequest<Request> {
-    type Error;
-    type Output;
-
-    fn from_request(&self, req: &Request) -> impl Future<Output = Result<Self::Output, Self::Error>>;
-}
-
-/// A trait that defines the contract for handling authentication workflows
-/// over an incoming `Request` type.
-///
-/// This trait provides associated types for each of the main steps involved in
-/// an authentication system: forbidding, signing in, signing out, issuing challenges,
-/// and authenticating. Each associated type is expected to implement `FromRequest`,
-/// which means it can extract itself from an incoming `Request`.
-///
-/// Once extracted, the type produced by `FromRequest::Output` must implement
-/// a specific handler trait to perform its task:
-///
-/// - `Forbid` → produces a `Handler`
-/// - `SignIn` → produces a `SignInHandler`
-/// - `Signout` → produces a `SignOutHandler`
-/// - `Challenge` → produces a `Handler`
-/// - `Authenticate` → produces a `Handler`
-///
-/// ## Associated Types
-/// - `type Forbid`: Handles forbidden requests.
-/// - `type SignIn`: Handles sign-in requests.
-/// - `type Signout`: Handles sign-out requests.
-/// - `type Challenge`: Handles authentication challenges (e.g., multi-factor, CAPTCHA).
-/// - `type Authenticate`: Handles actual authentication (e.g., verifying tokens).
-///
-/// ## Trait Bounds
-/// - Each associated type implements `FromRequest<Request>`.
-/// - The extracted `Output` type implements the appropriate handler trait.
-pub trait Authentication<Request>
-where
-    Self::Forbid: FromRequest<Request>,
-    <Self::Forbid as FromRequest<Request>>::Output: Handler,
-    Self::SignIn: FromRequest<Request>,
-    <Self::SignIn as FromRequest<Request>>::Output: SignInHandler,
-    Self::Signout: FromRequest<Request>,
-    <Self::Signout as FromRequest<Request>>::Output: SignOutHandler,
-    Self::Challenge: FromRequest<Request>,
-    <Self::Challenge as FromRequest<Request>>::Output: Handler,
-    Self::Authenticate: FromRequest<Request>,
-    <Self::Authenticate as FromRequest<Request>>::Output: Handler,
-{
-    type Forbid;
-    type SignIn;
-    type Signout;
-    type Challenge;
-    type Authenticate;
-}
-
+//
 pub mod sign_out {
-    use super::{claim::Claim, handler::Handler};
+    use super::{Context, claim::Claim, handler::Handler};
     use std::future::Future;
 
-    pub trait SignOutEvent {
-        fn after_signout(&self, claim: &Claim);
-        fn before_signout(&self, claim: &Claim);
+    pub trait SignOutHandler<Request>: Handler<Request> {
+        fn sign_out(&self, ctx: Context<Request>, claim: &Claim) -> impl Future<Output = Result<(), Self::Error>> + Send;
     }
 
-    pub trait SignOutHandler: Handler {
-        fn sign_out(&self, claim: &Claim) -> impl Future<Output = Result<(), Self::Error>> + Send;
+    #[derive(Clone)]
+    pub struct SignOut<H> {
+        handler: H,
+        // Other Stuff goes in here
+    }
+
+    impl<H> SignOut<H> {
+        async fn sign_out<Request>(&self, req: &Context<Request>, claim: &Claim) -> Result<(), H::Error>
+        where
+            H: SignOutHandler<Request>,
+        {
+            // Delegate the Request to the handler
+            todo!()
+        }
     }
 }
 
 pub mod sign_in {
-    use super::{FromRequest, claim::Claim, sign_out::SignOutHandler};
+    use super::{Context, claim::Claim, sign_out::SignOutHandler};
     use std::future::Future;
 
-    pub trait SignInEvent {
-        fn after_signin(&self, claim: &Claim);
-        fn before_signin(&self, claim: &Claim);
-    }
-    pub trait SignInHandler: SignOutHandler {
-        fn sign_in(&self, claim: &Claim) -> impl Future<Output = Result<(), Self::Error>> + Send;
+    pub trait SignInHandler<Request>: SignOutHandler<Request> {
+        type Success;
+
+        fn sign_in(&self, contex: &Context<Request>, claim: &Claim) -> impl Future<Output = Result<Self::Success, Self::Error>> + Send;
     }
 
-    pub struct SignInError;
-    pub struct SignIn<T>(T);
+    /*
+       We want the api to be like
 
-    impl<T, Request> FromRequest<Request> for SignIn<T>
-    where
-        T: SignInHandler,
-    {
-        type Error = SignInError;
+       // Sign in can create it self from request part via state a state populated when the application starts and shared among the request
+       // SignIn works with any T as long as T::Option is in State which would be used to create T
+       async fn get_users(sign_in_ctx: SignIn<Cookie>, claim: Context<Parts>) -> Response {
+           let claim = Claim::default();
+           let res = sign_in_ctx.sign_in(context, claim).await?;
 
-        type Output = T;
+           Ok(res)
+       }
+    */
+    #[derive(Clone)]
+    pub struct SignIn<H> {
+        handler: H,
+        // Other Stuff goes in here
+    }
 
-        async fn from_request(&self, req: &Request) -> Result<Self::Output, Self::Error> {
+    impl<H> SignIn<H> {
+        async fn sign_in<Request>(&self, req: &Context<Request>, claim: &Claim) -> Result<H::Success, H::Error>
+        where
+            H: SignInHandler<Request>,
+        {
+            // Delegate the Request to the handler
             todo!()
         }
     }
@@ -142,7 +121,13 @@ pub mod sign_in {
 
 #[cfg(test)]
 mod test {
+    use super::{
+        Authentication,
+        handler::cookie::{CookieAuthenticationExt as _, CookieOption},
+    };
 
-    #[test]
-    fn test_context() {}
+    #[tokio::test]
+    async fn test_context() {
+        let mut auth = Authentication::default().add_cookie(|auth| CookieOption {});
+    }
 }
