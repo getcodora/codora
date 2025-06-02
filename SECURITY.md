@@ -4,7 +4,7 @@
 
 If you believe you've discovered a security issue in this project, please contact us:
 
-- **[Email Us](mailto://midewestmond@gmail.com, "ws-gith email address")**
+- **[Email Us](mailto://west.sh.mail@gmail.com, "West Sheriff email address")**
 
 Please **do not report security vulnerabilities through public GitHub issues**.
 

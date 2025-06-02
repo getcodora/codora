@@ -18,9 +18,9 @@
 //! For more information, visit the [validator repository](https://github.com/Keats/validator).
 #![doc = include_str!("../README.md")]
 
-mod internal;
+mod error;
 
-pub use internal::{IntoError, Validate, ValidationError};
+pub use error::{Validate, ValidationError};
 
 // TODO - re-export the macro so we can use it like this
 #[cfg(feature = "derive")]

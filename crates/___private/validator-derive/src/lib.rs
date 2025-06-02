@@ -118,17 +118,17 @@ pub fn derive_validate(tk: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 use codora_validator as ___codora_validator;
                 use std::borrow::Cow;
 
-                impl ___codora_validator::IntoError for #error_struct_ident<___codora_validator::ValidationError> {
-                    type Output = #error_struct_ident<Option<Cow<'static, str>>>;
-                    fn into_error(self) -> Self::Output {
-                        #error_struct_ident<Option<Cow<'static, str>>> {
-                            // create this value from field
-                            // ex: value: self.ident.into(),
-                        }
-                    }
-                }
+                // impl ___codora_validator::IntoError for #error_struct_ident<___codora_validator::ValidationError> {
+                //     type Output = #error_struct_ident<Option<Cow<'static, str>>>;
+                //     fn into_error(self) -> Self::Output {
+                //         #error_struct_ident<Option<Cow<'static, str>>> {
+                //             // create this value from field
+                //             // ex: value: self.ident.into(),
+                //         }
+                //     }
+                // }
                 impl #context_generic ___codora_validator::Validate<#context> for #derived_struct_ident #ty #whr {
-                    type Error = #error_struct_ident<___codora_validator::ValidationError>;
+                    type Error = Self;
 
                     fn validate(&self, context: &#context) -> core::result::Result<(), Self::Error> {
                         #validation_result

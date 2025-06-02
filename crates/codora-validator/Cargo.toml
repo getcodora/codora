@@ -5,15 +5,17 @@ version = { workspace = true }
 
 
 [features]
-default = ["derive"]
+default = ["derive", "serde"]
 derive = ["dep:validator-derive"]
+serde = ["dep:serde"]
 
 [dependencies]
 codora-util = { workspace = true }
 serde_json = { workspace = true }
-serde = { workspace = true, features = ["derive"] }
-validator-derive = { path = "../___private/validator-derive", optional = true }
 derive_more = { version = "2.0.1", features = ["from"] }
+serde = { workspace = true, features = ["derive"], optional = true }
+validator-derive = { path = "../___private/validator-derive", optional = true }
+
 
 [dev-dependencies]
 anyhow = { workspace = true }
