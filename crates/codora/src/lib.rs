@@ -9,11 +9,11 @@
 #![cfg_attr(not(debug_assertions), deny(missing_docs))]
 #![doc = include_str!("../../../README.md")]
 
-#[cfg(not(any(feature = "util", feature = "security", feature = "validator", feature = "validator")))]
+#[cfg(not(any(feature = "core", feature = "security")))]
 compile_error!("You must enable at least one feature to use codora");
 
-#[cfg(feature = "util")]
-pub use codora_util::*;
+#[cfg(feature = "core")]
+pub use codora_core::*;
 
 // TODO -> Inline docs, setup getcodora, learn about action, update readme, changelog, otherstuff
 #[cfg(feature = "security")]

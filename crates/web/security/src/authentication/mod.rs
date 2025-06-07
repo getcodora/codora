@@ -1,5 +1,5 @@
 use claim::Claim;
-use codora_util::new;
+use codora_core::new;
 use std::sync::{Arc, RwLock};
 
 pub mod claim;
