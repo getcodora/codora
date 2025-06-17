@@ -5,8 +5,8 @@ edition = { workspace = true }
 license = { workspace = true }
 description = { workspace = true }
 repository = { workspace = true }
-keywords = ["rust"]
-categories = ["rust", "web"]
+keywords = ["web", "server", "orm", "authentication", "security", "logging"]
+categories = ["web-programming", "database", "authentication"]
 authors = { workspace = true }
 
 
