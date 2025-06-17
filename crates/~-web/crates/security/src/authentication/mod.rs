@@ -1,9 +1,5 @@
 use claim::Claim;
-<<<<<<<< HEAD:crates/~-security/src/authentication/mod.rs
 use extension::new;
-========
-use codora_core::new;
->>>>>>>> acef29043e69271790186913c6c5b030dada6bf0:crates/web/security/src/authentication/mod.rs
 use std::sync::{Arc, RwLock};
 
 pub mod claim;

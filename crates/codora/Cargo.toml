@@ -5,13 +5,14 @@ edition = { workspace = true }
 
 
 [features]
-default = ["extension", "security"]
-security = ["dep:codora-security"]
+default = ["extension", "web"]
 extension = ["dep:extension"]
+web = ["dep:codora-web"]
+
 
 [dependencies]
 extension = { workspace = true, optional = true }
-codora-security = { workspace = true, optional = true }
+codora-web = { workspace = true, optional = true }
 
 
 [dev-dependencies]

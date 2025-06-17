@@ -9,15 +9,15 @@
 #![cfg_attr(not(debug_assertions), deny(missing_docs))]
 #![doc = include_str!("../../../README.md")]
 
-#[cfg(not(any(feature = "extension", feature = "security")))]
+#[cfg(not(any(feature = "extension", feature = "web")))]
 compile_error!("You must enable at least one feature to use codora");
 
-#[cfg(feature = "core")]
-pub use codora_core::*;
+#[cfg(feature = "extension")]
+pub use extension::*;
 
 // TODO -> Inline docs, setup getcodora, learn about action, update readme, changelog, otherstuff
-#[cfg(feature = "security")]
-pub mod security {
+#[cfg(feature = "web")]
+pub mod web {
     //!
     //! This is the security module for codora
 }

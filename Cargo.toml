@@ -18,7 +18,7 @@ authors = ["West Sheriff <west.sh.mail@gmail.com>"]
 
 [workspace.dependencies]
 # Workspace Crates
-codora-security = { path = "./crates/~-security" }
+codora-web = { path = "./crates/~-web" }
 extension = { path = "./crates/~-extension" }
 codora = { path = "./crates/codora" }
 
