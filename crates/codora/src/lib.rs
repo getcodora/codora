@@ -7,7 +7,7 @@
 #![cfg_attr(not(test), deny(clippy::print_stdout, clippy::dbg_macro))]
 // - Lint for missing docs
 // #![cfg_attr(not(debug_assertions), deny(missing_docs))]
-#![doc = include_str!("../../../README.md")]
+// #![doc = include_str!("../../../README.md")]
 
 #[cfg(not(any(feature = "extension", feature = "web")))]
 compile_error!("You must enable at least one feature to use codora");
