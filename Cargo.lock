@@ -67,20 +67,37 @@ name = "codora"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+<<<<<<< HEAD
  "codora-security",
  "extension",
+=======
+ "codora-core",
+ "codora-security",
+>>>>>>> acef29043e69271790186913c6c5b030dada6bf0
  "tokio",
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "codora-bot"
 version = "0.1.0"
+=======
+name = "codora-core"
+version = "0.1.0"
+dependencies = [
+ "derive-new",
+]
+>>>>>>> acef29043e69271790186913c6c5b030dada6bf0
 
 [[package]]
 name = "codora-security"
 version = "0.1.0"
 dependencies = [
+<<<<<<< HEAD
  "extension",
+=======
+ "codora-core",
+>>>>>>> acef29043e69271790186913c6c5b030dada6bf0
  "futures-util",
  "http",
  "tokio",
@@ -98,6 +115,7 @@ dependencies = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "extension"
 version = "0.1.0"
 dependencies = [
@@ -105,6 +123,8 @@ dependencies = [
 ]
 
 [[package]]
+=======
+>>>>>>> acef29043e69271790186913c6c5b030dada6bf0
 name = "fnv"
 version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"

@@ -80,5 +80,6 @@ docs/.docusaurus
 templates/*
 **/templates
 
+dev.*rs
 dev/**
 **/dev/**

@@ -12,8 +12,8 @@
 #[cfg(not(any(feature = "extension", feature = "security")))]
 compile_error!("You must enable at least one feature to use codora");
 
-#[cfg(feature = "util")]
-pub use codora_util::*;
+#[cfg(feature = "core")]
+pub use codora_core::*;
 
 // TODO -> Inline docs, setup getcodora, learn about action, update readme, changelog, otherstuff
 #[cfg(feature = "security")]
