@@ -6,7 +6,7 @@ license = "MIT"
 description = "Web development in codora"
 repository = { workspace = true }
 keywords = ["web", "security"]
-categories = ["web", "security"]
+categories = ["web-programming"]
 authors = { workspace = true }
 
 

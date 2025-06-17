@@ -6,7 +6,7 @@ license = "MIT"
 description = "Authentication and Authorization library written in rust"
 repository = { workspace = true }
 keywords = ["authentication", "authorization"]
-categories = ["authentication", "authorization"]
+categories = ["web-programming", "authentication"]
 authors = { workspace = true }
 
 

@@ -6,7 +6,7 @@ edition = "2024"
 license = "MIT"
 repository = { workspace = true }
 keywords = ["bot", "tlib", "telegram-library", "discord-library"]
-categories = ["bot", "tlib", "library"]
+categories = ["web-programming"]
 authors = { workspace = true }
 
 [dependencies]
