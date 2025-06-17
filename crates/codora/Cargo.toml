@@ -5,18 +5,14 @@ edition = { workspace = true }
 
 
 [features]
-default = ["util", "security"]
-validator = ["dep:codora-validator"]
+default = ["extension", "security"]
 security = ["dep:codora-security"]
-util = ["dep:codora-util"]
-axum = ["dep:codora-adapter-axum"]
-
+extension = ["dep:extension"]
 
 [dependencies]
-codora-util = { workspace = true, optional = true }
+extension = { workspace = true, optional = true }
 codora-security = { workspace = true, optional = true }
-codora-validator = { workspace = true, optional = true }
-codora-adapter-axum = { workspace = true, optional = true }
+
 
 [dev-dependencies]
 anyhow = { workspace = true }

@@ -1,16 +1,5 @@
 [workspace]
-members = [
-    "crates/codora",
-    "crates/codora-bot",
-    "crates/codora-util",
-    "crates/codora-security",
-    "crates/codora-validator",
-
-    # Adapter
-    "crates/adapter/*",
-    # Internal crate mean't for internal used 
-    "crates/___private/*",
-]
+members = ["crates/*"]
 resolver = "2"
 
 
@@ -25,13 +14,9 @@ authors = ["West Sheriff <west.sh.mail@gmail.com>"]
 
 [workspace.dependencies]
 # Workspace Crates
+codora-security = { path = "./crates/~-security" }
+extension = { path = "./crates/~-extension" }
 codora = { path = "./crates/codora" }
-codora-security = { path = "./crates/codora-security" }
-codora-validator = { path = "./crates/codora-validator" }
-codora-util = { path = "./crates/codora-util" }
-# Adapter Crates
-codora-adapter-axum = { path = "./crates/adapter/axum" }
-
 
 # External Crates
 anyhow = "1.0.87"

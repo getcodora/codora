@@ -1,5 +1,5 @@
 [package]
-name = "codora-adapter-poem"
+name = "extension"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -7,8 +7,10 @@ repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
 authors.workspace = true
+publish = false
 
 [dependencies]
+derive-new = { version = "0.7.0" }
 
 [lints]
 workspace = true
