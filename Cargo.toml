@@ -12,7 +12,7 @@ readme = "README.md"
 homepage = "https://github.com/getcodora/codora"
 documentation = "https://docs.rs/codora"
 repository = "https://github.com/getcodora/codora"
-keywords = ["web", "server", "orm", "authentication", "security", "logging"]
+keywords = ["web", "server", "orm", "authentication", "security"]
 categories = ["web-programming", "database", "authentication"]
 authors = ["West Sheriff <west.sh.mail@gmail.com>"]
 
