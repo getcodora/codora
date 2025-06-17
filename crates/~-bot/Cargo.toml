@@ -1,12 +1,13 @@
 [package]
 name = "codora-bot"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-repository.workspace = true
-keywords.workspace = true
-categories.workspace = true
-authors.workspace = true
+description = "Library for bot development with codora"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = { workspace = true }
+keywords = ["bot", "tlib", "telegram-library", "discord-library"]
+categories = ["bot", "tlib", "library"]
+authors = { workspace = true }
 
 [dependencies]
 derive-new = "0.7.0"

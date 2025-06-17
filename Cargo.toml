@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/*"]
+members = ["crates/~-web/crates/*", "crates/*"]
 resolver = "2"
 
 
@@ -18,9 +18,10 @@ authors = ["West Sheriff <west.sh.mail@gmail.com>"]
 
 [workspace.dependencies]
 # Workspace Crates
-codora-web = { path = "./crates/~-web" }
-extension = { path = "./crates/~-extension" }
-codora = { path = "./crates/codora" }
+codora = { path = "./crates/codora", version = "0.1.0" }
+codora-web = { path = "./crates/~-web", version = "0.1.0" }
+extension = { path = "./crates/~-extension", version = "0.1.0" }
+codora-security = { path = "./crates/~-web/crates/security", version = "0.1.0" }
 
 # External Crates
 anyhow = "1.0.87"

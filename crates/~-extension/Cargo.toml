@@ -1,12 +1,13 @@
 [package]
 name = "extension"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-repository.workspace = true
-keywords.workspace = true
-categories.workspace = true
-authors.workspace = true
+version = "0.1.0"
+description = "Helpful abstraction and utilities built to speed up development in rust"
+edition = "2024"
+license = "MIT"
+repository = { workspace = true }
+keywords = { workspace = true }
+categories = { workspace = true }
+authors = { workspace = true }
 publish = false
 
 [dependencies]
