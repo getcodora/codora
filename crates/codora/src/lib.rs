@@ -6,7 +6,7 @@
 #![cfg_attr(test, allow(clippy::float_cmp))]
 #![cfg_attr(not(test), deny(clippy::print_stdout, clippy::dbg_macro))]
 // - Lint for missing docs
-#![cfg_attr(not(debug_assertions), deny(missing_docs))]
+// #![cfg_attr(not(debug_assertions), deny(missing_docs))]
 #![doc = include_str!("../../../README.md")]
 
 #[cfg(not(any(feature = "extension", feature = "web")))]

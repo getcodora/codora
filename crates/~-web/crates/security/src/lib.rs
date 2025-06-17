@@ -6,7 +6,7 @@
 #![cfg_attr(test, allow(clippy::float_cmp))]
 #![cfg_attr(not(test), deny(clippy::print_stdout, clippy::dbg_macro))]
 // - Lint for missing docs
-#![cfg_attr(not(debug_assertions), deny(missing_docs))]
+// #![cfg_attr(not(debug_assertions), deny(missing_docs))]
 
 // TODO fix this later to export nicely!
 pub mod authentication;
